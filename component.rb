@@ -15,6 +15,7 @@ end
 # and every tuple found with the form ("url", "html)
 stream = stream.call_component do
   component_id CRAWL_DOMAIN_ID
+  outputs "crawl_stream"
 end
 
 # The stream now contains HTML... save it to persistent storage... 
@@ -35,8 +36,10 @@ end
 # Now call the 'web_screenshot' component, which will take a screenshot
 # on the incoming 'url' field and return the tuple ('url', 'png_image_b64'),
 # where 'png_image_b64' holds the image content bytes"
-stream = stream.call_component("web_screenshot")
-
+stream = stream.call_component do
+  component_id SCREENSHOT_ID
+  outputs "screenshot_stream"
+end
 
 # Now, save the png images
 stream = stream.each do |tuple|
