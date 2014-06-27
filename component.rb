@@ -12,9 +12,10 @@ end
 
 
 # Call the 'crawl_domain' component; which will crawl the given incoming 'domain'
-# every tuple found with the form ("url", "html)
-stream = stream.call_component("crawl")
-
+# and every tuple found with the form ("url", "html)
+stream = stream.call_component do
+  component_id CRAWL_DOMAIN_ID
+end
 
 # The stream now contains HTML... save it to persistent storage... 
 stream = stream.each do |tuple|
@@ -32,8 +33,8 @@ end
 
 
 # Now call the 'web_screenshot' component, which will take a screenshot
-# on the incoming 'url' field and return the tuple ('url', 'html', 'image_url'),
-# where the 'image_url' is a public facing URL of the screenshot
+# on the incoming 'url' field and return the tuple ('url', 'png_image_b64'),
+# where 'png_image_b64' holds the image content bytes"
 stream = stream.call_component("web_screenshot")
 
 
